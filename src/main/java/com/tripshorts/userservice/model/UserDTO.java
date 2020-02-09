@@ -2,6 +2,7 @@ package com.tripshorts.userservice.model;
 
 import com.tripshorts.userservice.entity.Roles;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class UserDTO implements UserDetails, Serializable {
@@ -50,12 +52,6 @@ public class UserDTO implements UserDetails, Serializable {
         this.roles = roles;
     }
 
-    public List<Roles> getRolesList(){
-//        List<String> rolesInString = new ArrayList<>();
-//        this.roles.forEach(role -> rolesInString.add(role.getEmbeddedRolesId().getRole()));
-//        return rolesInString;
-        return roles;
-    }
     public void setEmail(String email) {
         this.email = email;
     }
@@ -102,10 +98,7 @@ public class UserDTO implements UserDetails, Serializable {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        GrantedAuthority grantedAuthority = new AuthorityClass();
-        authorities.add(grantedAuthority);
-        return authorities;
+        return this.roles.stream().map(role -> new SimpleGrantedAuthority(role.getRole())).collect(Collectors.toList());
     }
 
     public String getPassword() {

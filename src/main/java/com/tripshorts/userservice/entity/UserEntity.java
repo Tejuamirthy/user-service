@@ -45,13 +45,10 @@ public class UserEntity {
     @Column(name = "phoneNumber")
     private Long phoneNumber;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "roles",joinColumns = @JoinColumn(name = "user_id"))
     List<Roles> roles;
 
-//    @OneToMany(targetEntity = Roles.class, fetch = FetchType.EAGER, mappedBy = "embeddedRolesId.userEntity")
-//    private List<Roles> roles;
-//
     public List<Roles> getRoles() {
         return roles;
     }
@@ -59,14 +56,6 @@ public class UserEntity {
     public void setRoles(List<Roles> roles) {
         this.roles = roles;
     }
-
-    public List<Roles> getRolesList(){
-//        List<String> rolesInString = new ArrayList<>();
-//        this.roles.forEach(role -> rolesInString.add(role.getEmbeddedRolesId().getRole()));
-//        return rolesInString;
-        return roles;
-    }
-
 
     public void setEmail(String email) {
         this.email = email;

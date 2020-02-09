@@ -109,7 +109,7 @@ public class LoginServiceImplementation implements LoginService {
             throw new UserNotFound("User name not found");
         }
         List<String> stringList = new ArrayList<>();
-        userEntity.getRolesList().forEach(role -> stringList.add(role.getRole()));
+        userEntity.getRoles().forEach(role -> stringList.add(role.getRole()));
         return stringList;
     }
 
