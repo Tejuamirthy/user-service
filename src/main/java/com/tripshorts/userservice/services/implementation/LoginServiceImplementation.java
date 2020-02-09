@@ -95,6 +95,7 @@ public class LoginServiceImplementation implements LoginService {
         if(userEntity != null) {
             Long id = userEntity.getId();
             BeanUtils.copyProperties(userDTO, userEntity);
+            userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
             userEntity.setId(id);
             loginRepository.save(userEntity);
             return  userDTO;
