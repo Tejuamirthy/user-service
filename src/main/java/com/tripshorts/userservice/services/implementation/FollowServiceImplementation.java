@@ -46,8 +46,8 @@ public class FollowServiceImplementation implements FollowService {
         return null;
     }
 
-    @Override
-    public List<Integer> getUserById(int id) {
-        return followRepository.findById(id);
-    }
+//    @Override
+//    public List<Long> getUserById(Long id) {
+//        return followRepository.findById(id);
+//    }
 }

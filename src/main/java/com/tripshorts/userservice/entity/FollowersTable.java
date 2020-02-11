@@ -11,12 +11,14 @@ public class FollowersTable {
 
 
     @Id
-    @JoinColumn(referencedColumnName = "id")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id", referencedColumnName = "user_id")
     private UserEntity userEntity;
 
     @Id
-    @Column(name = "follower_id")
-    private Long followerId;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "follower_id", referencedColumnName = "user_id")
+    private UserEntity userFollowerEntity;
 
 //    @EmbeddedId
 //    @AttributeOverride(name = "followerId", column=@Column(name = "follower_id"))
@@ -33,29 +35,48 @@ public class FollowersTable {
 
 
     public static class ForeignCompositeKey implements Serializable {
-        private Long id;
-        private Long followerId;
+        private UserEntity userEntity;
+        private UserEntity userFollowerEntity;
 
-        public ForeignCompositeKey(Long id, Long followerId) {
-            this.id = id;
-            this.followerId = followerId;
+        public UserEntity getUserEntity() {
+            return userEntity;
         }
 
-        public Long getId() {
-            return id;
+        public void setUserEntity(UserEntity userEntity) {
+            this.userEntity = userEntity;
         }
 
-        public void setId(Long id) {
-            this.id = id;
+        public UserEntity getUserFollowerEntity() {
+            return userFollowerEntity;
         }
 
-        public Long getFollowerId() {
-            return followerId;
+        public void setUserFollowerEntity(UserEntity userFollowerEntity) {
+            this.userFollowerEntity = userFollowerEntity;
         }
 
-        public void setFollowerId(Long followerId) {
-            this.followerId = followerId;
-        }
+        //        private Long id;
+//        private Long followerId;
+//
+//        public ForeignCompositeKey(Long id, Long followerId) {
+//            this.id = id;
+//            this.followerId = followerId;
+//        }
+//
+//        public Long getId() {
+//            return id;
+//        }
+//
+//        public void setId(Long id) {
+//            this.id = id;
+//        }
+//
+//        public Long getFollowerId() {
+//            return followerId;
+//        }
+//
+//        public void setFollowerId(Long followerId) {
+//            this.followerId = followerId;
+//        }
     }
 
 

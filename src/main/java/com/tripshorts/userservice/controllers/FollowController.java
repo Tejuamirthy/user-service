@@ -61,8 +61,8 @@ public class FollowController {
         return followService.getUserFollowing(username);
     }
 
-    @GetMapping(path = "/getfollowing/{id}")
-    public List<Integer> getFollowersById(@PathVariable Integer id) throws UserNotFound {
-        return followService.getUserById(id);
-    }
+//    @GetMapping(path = "/getfollowing/{id}")
+//    public List<Long> getFollowersById(@PathVariable Integer id) throws UserNotFound {
+//        return followService.getUserById(id);
+//    }
 }

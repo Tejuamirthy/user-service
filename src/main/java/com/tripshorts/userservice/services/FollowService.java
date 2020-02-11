@@ -14,5 +14,5 @@ public interface FollowService {
     List<UserDTO> getFollowing(Principal principal) throws UserNotFound;
     List<UserDTO> getUserFollowers(String username) throws UserNotFound;
     List<UserDTO> getUserFollowing(String username) throws UserNotFound;
-    List<Integer> getUserById(int id);
+//    List<Long> getUserById(int id);
 }
