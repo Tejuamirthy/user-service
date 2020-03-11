@@ -1,5 +1,6 @@
 package com.tripshorts.userservice.controllers;
 
+import com.tripshorts.userservice.entity.FollowersTable;
 import com.tripshorts.userservice.entity.UserEntity;
 import com.tripshorts.userservice.exceptions.UserAlreadyExists;
 import com.tripshorts.userservice.exceptions.UserNotFound;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@Controller
 public class LoginController {
 
     @Autowired
@@ -66,6 +66,11 @@ public class LoginController {
     @GetMapping(path = "/getuserroles")
     public List<String> getUserRoles(@RequestParam String username) throws UserNotFound {
         return loginService.getUserRoles(username);
+    }
+
+    @GetMapping(path = "/get-followers-table")
+    public List<Long> getFollowersTable() {
+        return loginService.getFollowersTable();
     }
 
 }
