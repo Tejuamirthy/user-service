@@ -1,13 +1,18 @@
 package com.tripshorts.userservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.Loader;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "Users")
-public class UserEntity {
+public class UserEntity implements Serializable {
 
     public void UserEntityValues(String email, String username, String password, Date dateOfBirth, String name, String gender, Long phoneNumber) {
         this.email = email;
@@ -21,7 +26,7 @@ public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
+    @Column(name = "id")
     private Long id;
 
     @Column(name = "email",unique = true)
@@ -45,9 +50,16 @@ public class UserEntity {
     @Column(name = "phoneNumber")
     private Long phoneNumber;
 
+    @JsonIgnoreProperties
     @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "roles",joinColumns = @JoinColumn(name = "user_id"))
+    @CollectionTable(name = "roles",joinColumns = @JoinColumn(name = "id"))
     List<Roles> roles;
+
+
+//    @JsonIgnoreProperties
+//    @ElementCollection(fetch = FetchType.EAGER)
+//    @CollectionTable(name = "followers", joinColumns = @JoinColumn(name = "id", referencedColumnName = "id"))//ame = "followers",joinColumns = @JoinColumn(name = "id", referencedColumnName = "id"))
+//    List<UserEntity> followers;
 
     public List<Roles> getRoles() {
         return roles;

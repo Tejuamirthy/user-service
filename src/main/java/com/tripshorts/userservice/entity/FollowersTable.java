@@ -7,20 +7,37 @@ import java.io.Serializable;
 @Entity
 @Table(name = "followers")
 @IdClass(value = FollowersTable.ForeignCompositeKey.class)
-public class FollowersTable {
+public class FollowersTable implements Serializable {
 
 
     @Id
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id", referencedColumnName = "user_id")
+    @JoinColumn(name = "id", referencedColumnName = "id")
     private UserEntity userEntity;
 
     @Id
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "follower_id", referencedColumnName = "user_id")
+    @JoinColumn(name = "follower_id", referencedColumnName = "id")
     private UserEntity userFollowerEntity;
 
-//    @EmbeddedId
+    public UserEntity getUserEntity() {
+        return userEntity;
+    }
+
+    public void setUserEntity(UserEntity userEntity) {
+        this.userEntity = userEntity;
+    }
+
+    public UserEntity getUserFollowerEntity() {
+        return userFollowerEntity;
+    }
+
+    public void setUserFollowerEntity(UserEntity userFollowerEntity) {
+        this.userFollowerEntity = userFollowerEntity;
+    }
+
+
+    //    @EmbeddedId
 //    @AttributeOverride(name = "followerId", column=@Column(name = "follower_id"))
 //    private ForeignCompositeKey foreignCompositeKey;
 //
