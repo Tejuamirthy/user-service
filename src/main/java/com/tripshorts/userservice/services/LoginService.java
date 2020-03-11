@@ -5,6 +5,7 @@ import com.tripshorts.userservice.exceptions.UserNotFound;
 import com.tripshorts.userservice.model.LoginRequest;
 import com.tripshorts.userservice.model.UserDTO;
 
+import java.security.Principal;
 import java.util.List;
 
 public interface LoginService {
