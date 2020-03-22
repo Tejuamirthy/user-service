@@ -68,9 +68,4 @@ public class LoginController {
         return loginService.getUserRoles(username);
     }
 
-    @GetMapping(path = "/get-followers-table")
-    public List<Long> getFollowersTable() {
-        return loginService.getFollowersTable();
-    }
-
 }
