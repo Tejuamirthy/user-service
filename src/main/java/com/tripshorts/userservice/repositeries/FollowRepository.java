@@ -11,9 +11,10 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface FollowRepository extends JpaRepository<FollowersTable, FollowersTable.ForeignCompositeKey> {
-    @Query(value = "SELECT * FROM followers f where f.id = :uId ;", nativeQuery = true)
-    List<FollowersTable> findByUserEntity(@Param("uId") int l);
-//    List<Long> findByUserFollowerEntity(UserEntity userFollowerEntity);
+public interface FollowRepository extends JpaRepository<FollowersTable, Long> {
+
+    // To get the followers with user id as "id"
+    @Query(value = "SELECT * FROM followers f where f.from_id = :uId ;", nativeQuery = true)
+    List<FollowersTable> findById(@Param("uId") long id);
 
 }
