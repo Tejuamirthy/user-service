@@ -2,7 +2,7 @@ package com.tripshorts.userservice.services.implementation;
 
 import com.tripshorts.userservice.entity.UserEntity;
 import com.tripshorts.userservice.model.UserDTO;
-import com.tripshorts.userservice.repositeries.LoginRepository;
+import com.tripshorts.userservice.repositeries.UserRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,11 +14,11 @@ import org.springframework.stereotype.Service;
 public class UserDetailsServiceImplementation implements UserDetailsService {
 
     @Autowired
-    private LoginRepository loginRepository;
+    private UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserEntity userEntity = loginRepository.findByUsername(username).orElse(null);
+        UserEntity userEntity = userRepository.findByUsername(username).orElse(null);
         if(userEntity == null){
             throw new UsernameNotFoundException("Username Not Found");
         }

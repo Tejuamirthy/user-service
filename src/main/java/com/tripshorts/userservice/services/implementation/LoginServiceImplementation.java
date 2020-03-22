@@ -1,12 +1,13 @@
 package com.tripshorts.userservice.services.implementation;
 
-import com.tripshorts.userservice.entity.Roles;
+import com.tripshorts.userservice.entity.FollowersTable;
 import com.tripshorts.userservice.entity.UserEntity;
 import com.tripshorts.userservice.exceptions.UserAlreadyExists;
 import com.tripshorts.userservice.exceptions.UserNotFound;
 import com.tripshorts.userservice.model.LoginRequest;
 import com.tripshorts.userservice.model.UserDTO;
-import com.tripshorts.userservice.repositeries.LoginRepository;
+import com.tripshorts.userservice.repositeries.FollowRepository;
+import com.tripshorts.userservice.repositeries.UserRepository;
 import com.tripshorts.userservice.services.LoginService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -23,14 +23,17 @@ import java.util.Optional;
 public class LoginServiceImplementation implements LoginService {
 
     @Autowired
-    private LoginRepository loginRepository;
+    private UserRepository userRepository;
+
+    @Autowired
+    private FollowRepository followRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Override
     public UserDTO findUserByUsername(String username) throws UserNotFound {
-        Optional<UserEntity> optionalUserEntity = loginRepository.findByUsername(username);
+        Optional<UserEntity> optionalUserEntity = userRepository.findByUsername(username);
         UserDTO userDTO = null;
         if(optionalUserEntity.isPresent()) {
             userDTO = new UserDTO();
@@ -42,7 +45,7 @@ public class LoginServiceImplementation implements LoginService {
 
     @Override
     public UserDTO findUserByEmail(String email) throws UserNotFound {
-        Optional<UserEntity> optionalUserEntity = loginRepository.findByEmail(email);
+        Optional<UserEntity> optionalUserEntity = userRepository.findByEmail(email);
         UserDTO userDTO = new UserDTO();
         if(!optionalUserEntity.isPresent())
             throw new UserNotFound("User not found with email");
@@ -52,7 +55,7 @@ public class LoginServiceImplementation implements LoginService {
 
     @Override
     public UserDTO findUserById(Long id) throws UserNotFound {
-        Optional<UserEntity> optionalUserEntity = loginRepository.findById(id);
+        Optional<UserEntity> optionalUserEntity = userRepository.findById(id);
         UserDTO userDTO = null;
         if(optionalUserEntity.isPresent()) {
             userDTO = new UserDTO();
@@ -82,7 +85,7 @@ public class LoginServiceImplementation implements LoginService {
                 UserEntity userEntity = new UserEntity();
                 BeanUtils.copyProperties(userDTO, userEntity);
                 userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
-                loginRepository.save(userEntity);
+                userRepository.save(userEntity);
                 return userDTO;
             }
 
@@ -92,13 +95,13 @@ public class LoginServiceImplementation implements LoginService {
 
     @Override
     public UserDTO updateUserDetails(UserDTO userDTO) throws UserNotFound {
-        UserEntity userEntity = loginRepository.findByUsername(userDTO.getUsername()).orElse(null);
+        UserEntity userEntity = userRepository.findByUsername(userDTO.getUsername()).orElse(null);
         if(userEntity != null) {
             Long id = userEntity.getId();
             BeanUtils.copyProperties(userDTO, userEntity);
             userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
             userEntity.setId(id);
-            loginRepository.save(userEntity);
+            userRepository.save(userEntity);
             return  userDTO;
         }
         throw new UserNotFound("Given user not found");
@@ -106,7 +109,7 @@ public class LoginServiceImplementation implements LoginService {
 
     @Override
     public List<String> getUserRoles(String username) throws UserNotFound {
-        UserEntity userEntity = loginRepository.findByUsername(username).orElse(null);
+        UserEntity userEntity = userRepository.findByUsername(username).orElse(null);
         if(userEntity == null) {
             throw new UserNotFound("User name not found");
         }
