@@ -13,11 +13,11 @@ public class FollowersTable implements Serializable {
     private Long id;
 
     @ManyToOne(targetEntity = UserEntity.class)
-    @JoinColumn(name = "from_id", referencedColumnName = "id", insertable = false)
+    @JoinColumn(name = "from_id", referencedColumnName = "id")
     private UserEntity userEntity;
 
     @ManyToOne(targetEntity = UserEntity.class)
-    @JoinColumn(name = "to_id", referencedColumnName = "id", insertable = false)
+    @JoinColumn(name = "to_id", referencedColumnName = "id")
     private UserEntity userFollowerEntity;
 
     public UserEntity getUserEntity() {
