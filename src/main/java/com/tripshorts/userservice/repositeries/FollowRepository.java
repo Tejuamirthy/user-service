@@ -15,6 +15,9 @@ public interface FollowRepository extends JpaRepository<FollowersTable, Long> {
 
     // To get the followers with user id as "id"
     @Query(value = "SELECT * FROM followers f where f.from_id = :uId ;", nativeQuery = true)
-    List<FollowersTable> findById(@Param("uId") long id);
+    List<FollowersTable> findFollowersById(@Param("uId") long id);
 
+
+    List<FollowersTable> findByUserEntity(UserEntity userEntity);
+    List<FollowersTable> findByUserFollowerEntity(UserEntity userEntity);
 }
