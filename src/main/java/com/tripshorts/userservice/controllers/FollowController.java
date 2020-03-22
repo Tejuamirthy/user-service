@@ -6,6 +6,7 @@ import com.tripshorts.userservice.exceptions.UserNotFound;
 import com.tripshorts.userservice.model.UserDTO;
 import com.tripshorts.userservice.services.FollowService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -17,6 +18,7 @@ public class FollowController {
     @Autowired
     private FollowService followService;
 
+    // TODO
     //follow a user
     @GetMapping(path = "/user/follow/{username}")
     public UserDTO followUser(@PathVariable String username, Principal principal) throws UserNotFound, UserAlreadyExists {
@@ -30,39 +32,39 @@ public class FollowController {
 //        return followService.followPlace(place);
 //    }
 
+    // TODO
     //unfollow a user
     @PostMapping(path = "/user/unfollow/{username}")
     public UserDTO unfollowUser(@PathVariable String username, Principal principal) throws UserNotFound, UserAlreadyExists {
         return followService.unfollow(username, principal);
     }
 
-    //get followers for a user
+    // TODO
+    //get followers for current logged in user
     @GetMapping(path = "/followers/")
     public List<UserDTO> getFollowers(Principal principal) throws UserNotFound {
         return followService.getFollowers(principal);
     }
 
+    // TODO
+    //get following for current logged in user
+    @GetMapping(path = "/{username}/following/")
+    public List<UserDTO> getFollowing(@PathVariable String username) throws UserNotFound {
+        return followService.getUserFollowing(username);
+    }
+
     //get following for a user
-    @GetMapping(path = "/following/")
-    public List<UserDTO> getFollowing(Principal principal) throws UserNotFound {
-        return followService.getFollowing(principal);
+    @GetMapping(path = "/get-following")
+    public List<UserDTO> getUserFollowing(@RequestParam(name = "username") String username) throws UserNotFound {
+        return followService.getUserFollowing(username);
     }
 
 
     //get followers for a user
-    @GetMapping(path = "/{username}/followers/")
-    public List<UserDTO> getUserFollowers(@PathVariable String username) throws UserNotFound {
+    @GetMapping(path = "/get-followers")
+    public List<UserDTO> getUserFollowers(@RequestParam(name = "username") String username) throws UserNotFound {
         return followService.getUserFollowers(username);
     }
 
-    //get following for a user
-    @GetMapping(path = "/{username}/following/")
-    public List<UserDTO> getUserFollowing(@PathVariable String username) throws UserNotFound {
-        return followService.getUserFollowing(username);
-    }
 
-//    @GetMapping(path = "/getfollowing/{id}")
-//    public List<Long> getFollowersById(@PathVariable Integer id) throws UserNotFound {
-//        return followService.getUserById(id);
-//    }
 }
