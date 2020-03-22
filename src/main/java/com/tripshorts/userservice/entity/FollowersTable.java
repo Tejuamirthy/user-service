@@ -6,22 +6,30 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "followers")
-@IdClass(value = FollowersTable.ForeignCompositeKey.class)
 public class FollowersTable implements Serializable {
 
-
     @Id
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id", referencedColumnName = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    @ManyToOne(targetEntity = UserEntity.class)
+    @JoinColumn(name = "from_id", referencedColumnName = "id", insertable = false)
     private UserEntity userEntity;
 
-    @Id
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "follower_id", referencedColumnName = "id")
+    @ManyToOne(targetEntity = UserEntity.class)
+    @JoinColumn(name = "to_id", referencedColumnName = "id", insertable = false)
     private UserEntity userFollowerEntity;
 
     public UserEntity getUserEntity() {
         return userEntity;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public void setUserEntity(UserEntity userEntity) {
