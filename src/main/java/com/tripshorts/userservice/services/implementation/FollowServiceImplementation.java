@@ -27,22 +27,12 @@ public class FollowServiceImplementation implements FollowService {
     private UserRepository userRepository;
 
     @Override
-    public UserDTO follow(String username, Principal principal) throws UserNotFound {
+    public UserDTO follow(String username, String currUsername) throws UserNotFound {
         return null;
     }
 
     @Override
-    public UserDTO unfollow(String username, Principal principal) throws UserNotFound {
-        return null;
-    }
-
-    @Override
-    public List<UserDTO> getFollowers(Principal principal) throws UserNotFound {
-        return null;
-    }
-
-    @Override
-    public List<UserDTO> getFollowing(Principal principal) throws UserNotFound {
+    public UserDTO unfollow(String username, String currUsername) throws UserNotFound {
         return null;
     }
 
