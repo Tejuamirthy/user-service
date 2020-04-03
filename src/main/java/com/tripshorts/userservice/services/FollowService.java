@@ -8,10 +8,8 @@ import java.security.Principal;
 import java.util.List;
 
 public interface FollowService {
-    UserDTO follow(String username, Principal principal) throws UserNotFound;
-    UserDTO unfollow(String username, Principal principal) throws UserNotFound;
-    List<UserDTO> getFollowers(Principal principal) throws UserNotFound;
-    List<UserDTO> getFollowing(Principal principal) throws UserNotFound;
+    UserDTO follow(String username, String currUsername) throws UserNotFound;
+    UserDTO unfollow(String username, String currUsername) throws UserNotFound;
     List<UserDTO> getUserFollowers(String username) throws UserNotFound;
     List<UserDTO> getUserFollowing(String username) throws UserNotFound;
 //    List<Long> getUserById(int id);
