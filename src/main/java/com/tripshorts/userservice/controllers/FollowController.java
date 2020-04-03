@@ -1,15 +1,13 @@
 package com.tripshorts.userservice.controllers;
 
-import com.tripshorts.userservice.exceptions.PlaceNotFound;
 import com.tripshorts.userservice.exceptions.UserAlreadyExists;
 import com.tripshorts.userservice.exceptions.UserNotFound;
 import com.tripshorts.userservice.model.UserDTO;
 import com.tripshorts.userservice.services.FollowService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -21,9 +19,11 @@ public class FollowController {
     // TODO
     //follow a user
     @GetMapping(path = "/user/follow/{username}")
-    public UserDTO followUser(@PathVariable String username, Principal principal) throws UserNotFound, UserAlreadyExists {
-
-        return followService.follow(username, principal);
+    public UserDTO followUser(@PathVariable String username) throws UserNotFound, UserAlreadyExists {
+        UserDTO userDTO = getCurrentUser();
+        if(userDTO == null)
+            throw new UserNotFound("User not logged in");
+        return followService.follow(username, userDTO.getUsername());
     }
 
 //    //follow a place
@@ -35,22 +35,27 @@ public class FollowController {
     // TODO
     //unfollow a user
     @PostMapping(path = "/user/unfollow/{username}")
-    public UserDTO unfollowUser(@PathVariable String username, Principal principal) throws UserNotFound, UserAlreadyExists {
-        return followService.unfollow(username, principal);
+    public UserDTO unfollowUser(@PathVariable String username) throws UserNotFound, UserAlreadyExists {
+        UserDTO userDTO = getCurrentUser();
+        if(userDTO == null)
+            throw new UserNotFound("User not logged in");
+        return followService.unfollow(username, userDTO.getUsername());
     }
 
-    // TODO
-    //get followers for current logged in user
-    @GetMapping(path = "/followers/")
-    public List<UserDTO> getFollowers(Principal principal) throws UserNotFound {
-        return followService.getFollowers(principal);
+    @GetMapping(path = "/my-followers")
+    public List<UserDTO> getCurrentFollowers() throws UserNotFound {
+        UserDTO userDTO = getCurrentUser();
+        if(userDTO == null)
+            throw new UserNotFound("User not logged in");
+        return followService.getUserFollowers(userDTO.getUsername());
     }
 
-    // TODO
-    //get following for current logged in user
-    @GetMapping(path = "/{username}/following/")
-    public List<UserDTO> getFollowing(@PathVariable String username) throws UserNotFound {
-        return followService.getUserFollowing(username);
+    @GetMapping(path = "/my-following")
+    public List<UserDTO> getCurrentFollowing() throws UserNotFound {
+        UserDTO userDTO = getCurrentUser();
+        if(userDTO == null)
+            throw new UserNotFound("User not logged in");
+        return followService.getUserFollowing(userDTO.getUsername());
     }
 
     //get following for a user
@@ -66,5 +71,10 @@ public class FollowController {
         return followService.getUserFollowers(username);
     }
 
-
+    private UserDTO getCurrentUser() {
+        Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(obj != null)
+            return (UserDTO) obj;
+        return null;
+    }
 }
