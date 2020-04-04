@@ -16,26 +16,22 @@ public class FollowController {
     @Autowired
     private FollowService followService;
 
-    // TODO
-    //follow a user
-    @GetMapping(path = "/user/follow/{username}")
-    public UserDTO followUser(@PathVariable String username) throws UserNotFound, UserAlreadyExists {
-        UserDTO userDTO = getCurrentUser();
-        if(userDTO == null)
-            throw new UserNotFound("User not logged in");
-        return followService.follow(username, userDTO.getUsername());
-    }
-
 //    //follow a place
 //    @GetMapping(path = "/follow/place")
 //    public boolean followPlace(@RequestParam String place) throws PlaceNotFound {
 //        return followService.followPlace(place);
 //    }
 
-    // TODO
-    //unfollow a user
-    @PostMapping(path = "/user/unfollow/{username}")
-    public UserDTO unfollowUser(@PathVariable String username) throws UserNotFound, UserAlreadyExists {
+    @GetMapping(path = "/follow")
+    public UserDTO followUser(@RequestParam(name = "username") String username) throws UserNotFound, UserAlreadyExists {
+        UserDTO userDTO = getCurrentUser();
+        if(userDTO == null)
+            throw new UserNotFound("User not logged in");
+        return followService.follow(username, userDTO.getUsername());
+    }
+
+    @GetMapping(path = "/unfollow")
+    public UserDTO unfollowUser(@RequestParam(name = "username") String username) throws UserNotFound, UserAlreadyExists {
         UserDTO userDTO = getCurrentUser();
         if(userDTO == null)
             throw new UserNotFound("User not logged in");
