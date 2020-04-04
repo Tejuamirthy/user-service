@@ -28,12 +28,39 @@ public class FollowServiceImplementation implements FollowService {
 
     @Override
     public UserDTO follow(String username, String currUsername) throws UserNotFound {
-        return null;
+        Optional<UserEntity> userEntity = userRepository.findByUsername(username);
+        Optional<UserEntity> currentUserEntity = userRepository.findByUsername(currUsername);
+        if(!userEntity.isPresent() || !currentUserEntity.isPresent())
+            throw new UserNotFound("User Not Found");
+        try {
+            FollowersTable followersTable = new FollowersTable();
+            followersTable.setUserEntity(currentUserEntity.get());
+            followersTable.setUserFollowerEntity(userEntity.get());
+            followRepository.save(followersTable);
+            UserDTO userDTO = new UserDTO();
+            BeanUtils.copyProperties(userEntity, userDTO);
+            return userDTO;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override
     public UserDTO unfollow(String username, String currUsername) throws UserNotFound {
-        return null;
+        Optional<UserEntity> userEntity = userRepository.findByUsername(username);
+        Optional<UserEntity> currentUserEntity = userRepository.findByUsername(currUsername);
+
+        if(!userEntity.isPresent() || !currentUserEntity.isPresent())
+            throw new UserNotFound("User Not Found");
+        try {
+            FollowersTable followersTable = followRepository.findByUserEntityAndUserFollowerEntity(currentUserEntity.get(), userEntity.get());
+            followRepository.delete(followersTable);
+            UserDTO userDTO = new UserDTO();
+            BeanUtils.copyProperties(userEntity, userDTO);
+            return userDTO;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override
