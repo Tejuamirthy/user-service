@@ -9,7 +9,7 @@ import java.io.Serializable;
 public class FollowersTable implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(targetEntity = UserEntity.class)

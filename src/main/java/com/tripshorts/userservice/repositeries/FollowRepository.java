@@ -20,7 +20,7 @@ public interface FollowRepository extends JpaRepository<FollowersTable, Long> {
     @Query(value = "SELECT * FROM followers f where f.to_id = :uId ;", nativeQuery = true)
     List<FollowersTable> findFollowersById(@Param("uId") long id);
 
-
     List<FollowersTable> findByUserEntity(UserEntity userEntity);
     List<FollowersTable> findByUserFollowerEntity(UserEntity userEntity);
+    FollowersTable findByUserEntityAndUserFollowerEntity(UserEntity userEntity, UserEntity userFollowerEntity);
 }
