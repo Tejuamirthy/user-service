@@ -50,10 +50,10 @@ public class UserEntity implements Serializable {
     @Column(name = "phoneNumber")
     private Long phoneNumber;
 
-    @JsonIgnoreProperties
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "roles",joinColumns = @JoinColumn(name = "id"))
-    List<Roles> roles;
+//    @JsonIgnoreProperties
+//    @ElementCollection(fetch = FetchType.EAGER)
+//    @CollectionTable(name = "roles",joinColumns = @JoinColumn(name = "id"))
+//    List<Roles> roles;
 
 
 //    @JsonIgnoreProperties
@@ -61,13 +61,13 @@ public class UserEntity implements Serializable {
 //    @CollectionTable(name = "followers", joinColumns = @JoinColumn(name = "id", referencedColumnName = "id"))//ame = "followers",joinColumns = @JoinColumn(name = "id", referencedColumnName = "id"))
 //    List<UserEntity> followers;
 
-    public List<Roles> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<Roles> roles) {
-        this.roles = roles;
-    }
+//    public List<Roles> getRoles() {
+//        return roles;
+//    }
+//
+//    public void setRoles(List<Roles> roles) {
+//        this.roles = roles;
+//    }
 
     public void setEmail(String email) {
         this.email = email;
