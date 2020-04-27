@@ -1,19 +1,12 @@
 package com.tripshorts.userservice.model;
 
 import com.tripshorts.userservice.entity.Roles;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 
-public class UserDTO implements UserDetails, Serializable {
+public class UserDTO {
 
     public void UserDTOValues(String email, String username, String password, Date dateOfBirth, String name, String gender, Long phoneNumber) {
         this.email = email;
@@ -74,33 +67,6 @@ public class UserDTO implements UserDetails, Serializable {
 
     public String getUsername() {
         return username;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return getEnabled();
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        if(roles == null)
-            return null;
-        return this.roles.stream().map(role -> new SimpleGrantedAuthority(role.getRole())).collect(Collectors.toList());
     }
 
     public String getPassword() {

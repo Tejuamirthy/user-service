@@ -1,7 +1,6 @@
 package com.tripshorts.userservice.entity;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity
@@ -18,7 +17,7 @@ public class FollowersTable implements Serializable {
 
     @ManyToOne(targetEntity = UserEntity.class)
     @JoinColumn(name = "to_id", referencedColumnName = "id")
-    private UserEntity userFollowerEntity;
+    private UserEntity userFollowingEntity;
 
     public UserEntity getUserEntity() {
         return userEntity;
@@ -36,12 +35,12 @@ public class FollowersTable implements Serializable {
         this.userEntity = userEntity;
     }
 
-    public UserEntity getUserFollowerEntity() {
-        return userFollowerEntity;
+    public UserEntity getUserFollowingEntity() {
+        return userFollowingEntity;
     }
 
-    public void setUserFollowerEntity(UserEntity userFollowerEntity) {
-        this.userFollowerEntity = userFollowerEntity;
+    public void setUserFollowingEntity(UserEntity userFollowingEntity) {
+        this.userFollowingEntity = userFollowingEntity;
     }
 
 

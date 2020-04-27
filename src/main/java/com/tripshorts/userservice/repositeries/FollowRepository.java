@@ -14,13 +14,13 @@ import java.util.List;
 public interface FollowRepository extends JpaRepository<FollowersTable, Long> {
 
     // To get the followers with user id as "id"
-    @Query(value = "SELECT * FROM followers f where f.from_id = :uId ;", nativeQuery = true)
-    List<FollowersTable> findFollowingById(@Param("uId") long id);
+    @Query(value = "SELECT to_id FROM followers f where f.from_id = :uId ;", nativeQuery = true)
+    List<Long> findFollowingById(@Param("uId") long id);
 
-    @Query(value = "SELECT * FROM followers f where f.to_id = :uId ;", nativeQuery = true)
-    List<FollowersTable> findFollowersById(@Param("uId") long id);
+    @Query(value = "SELECT from_id FROM followers f where f.to_id = :uId ;", nativeQuery = true)
+    List<Long> findFollowersById(@Param("uId") long id);
 
     List<FollowersTable> findByUserEntity(UserEntity userEntity);
-    List<FollowersTable> findByUserFollowerEntity(UserEntity userEntity);
-    FollowersTable findByUserEntityAndUserFollowerEntity(UserEntity userEntity, UserEntity userFollowerEntity);
+    List<FollowersTable> findByUserFollowingEntity(UserEntity userEntity);
+    FollowersTable findByUserEntityAndUserFollowingEntity(UserEntity userEntity, UserEntity userFollowerEntity);
 }
